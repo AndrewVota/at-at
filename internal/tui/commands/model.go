@@ -6,8 +6,9 @@ type Model struct {
 	WindowWidth  int
 	WindowHeight int
 
-	List    list.Model
-	Focused bool
+	List     list.Model
+	Focused  bool
+	Spinning bool
 }
 
 type Device struct {
@@ -40,5 +41,6 @@ func New() *Model {
 	return &Model{
 		List:    l,
 		Focused: false,
+        Spinning: false,
 	}
 }

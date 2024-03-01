@@ -3,5 +3,13 @@ package inputs
 func (m *Model) View() string {
 	styles := DefaultStyles()
 
-	return styles.Focused.Base.Render(m.TextInput.View())
+	switch m.Spinning {
+	case true:
+		return styles.Base.Render(m.Spinner.View() + "Sending command and awaiting response...")
+
+	case false:
+		return styles.Base.Render(m.TextInput.View())
+	}
+
+	return "Inputs component view..."
 }
