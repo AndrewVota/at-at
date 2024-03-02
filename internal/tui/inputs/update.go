@@ -1,7 +1,6 @@
 package inputs
 
 import (
-	"log"
 	"time"
 
 	"github.com/andrewvota/at-at/internal/tui/messages"
@@ -22,7 +21,6 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			time.AfterFunc(3*time.Second, func() {
                 m.Spinning = false
                 m.TextInput.Reset()
-                log.Println("Done")
 			})
 			return m, cmd
 		}

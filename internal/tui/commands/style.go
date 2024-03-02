@@ -28,9 +28,9 @@ func DefaultStyles() Style {
 			Title:                 lipgloss.NewStyle().Padding(0, 1).Foreground(lipgloss.Color("#FFFFFF")),
 			TitleBar:              lipgloss.NewStyle().Width(70).Margin(0, 1, 1, 1).Background(lipgloss.Color("#64708D")),
 			Selected:              lipgloss.NewStyle().PaddingLeft(3).Foreground(lipgloss.Color("#AFBEE1")),
-			SelectedDescription:   lipgloss.NewStyle().PaddingLeft(3).Foreground(lipgloss.Color("#AFBEE1")),
+			SelectedDescription:   lipgloss.NewStyle().PaddingLeft(3).Foreground(lipgloss.Color("#AFBEE1")).Width(72),
 			Unselected:            lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("241")),
-			UnselectedDescription: lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("241")),
+			UnselectedDescription: lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("241")).Width(72),
 			ItemDelegate:          nil,
 		},
 		Unfocused: BaseStyle{
@@ -39,8 +39,8 @@ func DefaultStyles() Style {
 			TitleBar:              lipgloss.NewStyle().Width(70).Margin(0, 1, 1, 1).Background(lipgloss.Color("#373B41")),
 			Selected:              lipgloss.NewStyle().PaddingLeft(3).Foreground(lipgloss.Color("#AFBEE1")),
 			SelectedDescription:   lipgloss.NewStyle().PaddingLeft(3).Foreground(lipgloss.Color("#AFBEE1")),
-			Unselected:            lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("237")),
-			UnselectedDescription: lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("237")),
+			Unselected:            lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("237")).Width(72),
+			UnselectedDescription: lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("237")).Width(72),
 			ItemDelegate:          nil,
 		},
 	}

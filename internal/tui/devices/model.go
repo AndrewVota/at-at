@@ -14,9 +14,15 @@ type Model struct {
 }
 
 type Device struct {
-	Make  string
-	Model string
-	Type  string
+	Make     string
+	Model    string
+	Type     string
+	Commands []Command
+}
+
+type Command struct {
+	Command string
+	Details string
 }
 
 func (p *Device) Title() string       { return p.Make + " " + p.Model }
@@ -31,7 +37,11 @@ func New() *Model {
 
 	items := make([]list.Item, len(devices))
 	for i, d := range devices {
-		items[i] = &Device{Make: d.Details.Make, Model: d.Details.Model, Type: d.Details.Type}
+		Commands := make([]Command, len(d.Commands))
+		for j, c := range d.Commands {
+			Commands[j] = Command{Command: c.Command, Details: c.Details}
+		}
+		items[i] = &Device{Make: d.Details.Make, Model: d.Details.Model, Type: d.Details.Type, Commands: Commands}
 	}
 
 	l := list.New(items, list.NewDefaultDelegate(), 0, 0)

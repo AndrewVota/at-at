@@ -26,6 +26,12 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.InputsComponent.WindowHeight = m.WindowHeight
 		m.ResponsesComponent.WindowWidth = m.WindowWidth
 		m.ResponsesComponent.WindowHeight = m.WindowHeight
+    
+    case messages.SendCommandsMessage:
+		var cmd tea.Cmd
+		component, cmd := m.CommandsComponent.Update(msg)
+		m.CommandsComponent = component.(*commands.Model)
+		return m, cmd
 
 	case tea.KeyMsg:
 		switch {
