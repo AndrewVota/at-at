@@ -3,6 +3,7 @@ package commands
 import "github.com/charmbracelet/bubbles/list"
 
 type Model struct {
+	Keys         KeyMap
 	WindowWidth  int
 	WindowHeight int
 
@@ -13,7 +14,7 @@ type Model struct {
 
 type Command struct {
 	Command string
-	Details    string
+	Details string
 }
 
 func (p *Command) Title() string       { return p.Command }
@@ -25,8 +26,9 @@ func New() *Model {
 	l.Title = "Commands"
 
 	return &Model{
-		List:    l,
-		Focused: false,
-        Spinning: false,
+		Keys:     DefaultKeyMap(),
+		List:     l,
+		Focused:  false,
+		Spinning: false,
 	}
 }
