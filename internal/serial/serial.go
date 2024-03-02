@@ -1,10 +1,44 @@
 package serial
 
 import (
+	"log"
+	"sync"
 	"time"
 
 	"go.bug.st/serial"
 )
+
+var (
+	instance *Serial
+	once     sync.Once
+)
+
+func GetInstance() *Serial {
+	once.Do(func() {
+		instance = &Serial{}
+	})
+
+	return instance
+}
+
+func ChangeInstance(portName string, baudRate int, dataBits int, stopBits float32, parity string) {
+	if instance == nil {
+		GetInstance()
+	}
+
+	instance.Config = SerialConfig{
+		Name:     portName,
+		BaudRate: baudRate,
+		DataBits: dataBits,
+		StopBits: convertStopBits(stopBits),
+		Parity:   convertParity(parity),
+	}
+
+	if instance.Port != nil {
+		instance.Close()
+	}
+	instance.Open()
+}
 
 type Serial struct {
 	Port   serial.Port
@@ -103,6 +137,8 @@ func (s *Serial) SendCommand(command string) (string, error) {
 		return "", err
 	}
 
+    log.Printf("Sent: %s", command)
+	log.Printf("Received: %s", string(buf[:n]))
 	return string(buf[:n]), nil
 }
 

@@ -17,6 +17,10 @@ type Device struct {
 	Make     string
 	Model    string
 	Type     string
+    BaudRate int
+    DataBits int
+    StopBits float32
+    Parity   string
 	Commands []Command
 }
 
@@ -41,9 +45,17 @@ func New() *Model {
 		for j, c := range d.Commands {
 			Commands[j] = Command{Command: c.Command, Details: c.Details}
 		}
-		items[i] = &Device{Make: d.Details.Make, Model: d.Details.Model, Type: d.Details.Type, Commands: Commands}
+		items[i] = &Device{
+            Make:     d.Details.Make,
+            Model:    d.Details.Model,
+            Type:     d.Details.Type,
+            BaudRate: d.SerialSettings.BaudRate,
+            DataBits: d.SerialSettings.DataBits,
+            StopBits: d.SerialSettings.StopBits,
+            Parity:   d.SerialSettings.Parity,
+            Commands: Commands,
+        }
 	}
-
 	l := list.New(items, list.NewDefaultDelegate(), 0, 0)
 	l.Title = "Devices"
 

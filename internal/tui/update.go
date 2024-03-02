@@ -33,6 +33,12 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.CommandsComponent = component.(*commands.Model)
 		return m, cmd
 
+    case messages.SendPortNameMessage:
+        var cmd tea.Cmd
+        component, cmd := m.DevicesComponent.Update(msg)
+        m.DevicesComponent = component.(*devices.Model) 
+        return m, cmd
+
 	case tea.KeyMsg:
 		switch {
 		case key.Matches(msg, m.Keys.Quit):

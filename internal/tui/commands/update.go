@@ -4,6 +4,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/andrewvota/at-at/internal/serial"
 	"github.com/andrewvota/at-at/internal/tui/messages"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
@@ -15,7 +16,6 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case messages.SendCommandsMessage:
 		items := make([]list.Item, len(msg.Commands))
 		for i, c := range msg.Commands {
-			log.Printf("Command: %s, Details: %s", c.Command, c.Details)
 			items[i] = &Command{Command: strings.Replace(c.Command, "\r", "", -1), Details: c.Details}
 		}
 		l := list.New(items, list.NewDefaultDelegate(), 0, 0)
@@ -27,7 +27,11 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch {
 		case key.Matches(msg, m.Keys.Submit):
 			currentCommand := m.List.SelectedItem().(*Command).Command
-			log.Printf("Sending command: %s", currentCommand)
+			_, err := serial.GetInstance().SendCommand(currentCommand)
+            if err != nil {
+                log.Println(err)
+            }
+            return m, nil
 		}
 	}
 
