@@ -1,16 +1,21 @@
 package tui
 
-import "github.com/andrewvota/at-at/internal/tui/ports"
+import (
+	"github.com/andrewvota/at-at/internal/tui/devices"
+	"github.com/andrewvota/at-at/internal/tui/messages"
+	"github.com/andrewvota/at-at/internal/tui/ports"
+)
 
 type Model struct {
 	// Global
 	Keys         KeyMap
 	WindowWidth  int
 	WindowHeight int
-	// State messages.State
+	State        messages.State
 
 	// Components
-	PortsComponent *ports.Model
+	PortsComponent   *ports.Model
+	DevicesComponent *devices.Model
 }
 
 func New() *Model {
@@ -18,7 +23,9 @@ func New() *Model {
 		Keys:         DefaultKeyMap(),
 		WindowWidth:  0,
 		WindowHeight: 0,
+		State:        messages.SelectingPort,
 
-		PortsComponent: ports.New(),
+		PortsComponent:   ports.New(),
+		DevicesComponent: devices.New(),
 	}
 }
