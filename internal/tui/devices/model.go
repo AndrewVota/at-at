@@ -14,12 +14,20 @@ type Model struct {
 
 	CurrentDeviceMake  string
 	CurrentDeviceModel string
+	CurrentBaudeRate   int
+	CurrentDataBits    int
+	CurrentStopBits    float32
+	CurrentParity      string
 }
 
 type Device struct {
-	Make  string
-	Model string
-	Type  string
+	Make      string
+	Model     string
+	Type      string
+	BaudeRate int
+	DataBits  int
+	StopBits  float32
+	Parity    string
 }
 
 func (p *Device) Title() string       { return p.Make + " " + p.Model }
@@ -34,7 +42,7 @@ func New() *Model {
 
 	items := make([]list.Item, len(devices))
 	for i, d := range devices {
-		items[i] = &Device{Make: d.Details.Make, Model: d.Details.Model, Type: d.Details.Type}
+		items[i] = &Device{Make: d.Details.Make, Model: d.Details.Model, Type: d.Details.Type, BaudeRate: d.SerialSettings.BaudRate, DataBits: d.SerialSettings.DataBits, StopBits: d.SerialSettings.StopBits, Parity: d.SerialSettings.Parity}
 	}
 	l := list.New(items, list.NewDefaultDelegate(), 0, 0)
 
@@ -47,5 +55,9 @@ func New() *Model {
 
 		CurrentDeviceMake:  "",
 		CurrentDeviceModel: "",
+		CurrentBaudeRate:   0,
+		CurrentDataBits:    0,
+		CurrentStopBits:    0,
+		CurrentParity:      "",
 	}
 }

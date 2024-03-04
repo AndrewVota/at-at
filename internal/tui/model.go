@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"github.com/andrewvota/at-at/internal/tui/commands"
 	"github.com/andrewvota/at-at/internal/tui/devices"
 	"github.com/andrewvota/at-at/internal/tui/messages"
 	"github.com/andrewvota/at-at/internal/tui/ports"
@@ -14,8 +15,9 @@ type Model struct {
 	State        messages.State
 
 	// Components
-	PortsComponent   *ports.Model
-	DevicesComponent *devices.Model
+	PortsComponent    *ports.Model
+	DevicesComponent  *devices.Model
+	CommandsComponent *commands.Model
 }
 
 func New() *Model {
@@ -25,7 +27,8 @@ func New() *Model {
 		WindowHeight: 0,
 		State:        messages.SelectingPort,
 
-		PortsComponent:   ports.New(),
-		DevicesComponent: devices.New(),
+		PortsComponent:    ports.New(),
+		DevicesComponent:  devices.New(),
+		CommandsComponent: commands.New(),
 	}
 }

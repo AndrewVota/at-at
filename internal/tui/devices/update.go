@@ -29,10 +29,14 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	currentDeviceMake := m.List.SelectedItem().(*Device).Make
 	currentDeviceModel := m.List.SelectedItem().(*Device).Model
+	currentDeviceBaudeRate := m.List.SelectedItem().(*Device).BaudeRate
+	currentDeviceDataBits := m.List.SelectedItem().(*Device).DataBits
+	currentDeviceStopBits := m.List.SelectedItem().(*Device).StopBits
+	currentDeviceParity := m.List.SelectedItem().(*Device).Parity
 	if m.CurrentDeviceMake != currentDeviceMake && m.CurrentDeviceModel != currentDeviceModel {
 		m.CurrentDeviceMake = currentDeviceMake
 		m.CurrentDeviceModel = currentDeviceModel
-		cmd = messages.SendDeviceMessage(currentDeviceMake, currentDeviceModel)
+		cmd = messages.SendDeviceMessage(currentDeviceMake, currentDeviceModel, currentDeviceBaudeRate, currentDeviceDataBits, currentDeviceStopBits, currentDeviceParity)
 		cmds = append(cmds, cmd)
 	}
 

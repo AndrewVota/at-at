@@ -7,5 +7,6 @@ func (m *Model) View() string {
 		lipgloss.Top,
 		m.PortsComponent.View(),
 		m.DevicesComponent.View(),
+		m.CommandsComponent.View(),
 	)
 }

@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"github.com/andrewvota/at-at/internal/tui/commands"
 	"github.com/andrewvota/at-at/internal/tui/devices"
 	"github.com/andrewvota/at-at/internal/tui/messages"
 	"github.com/andrewvota/at-at/internal/tui/ports"
@@ -26,7 +27,12 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				cmds = append(cmds, cmd)
 
 			case messages.SelectingDevice:
-				m.State = messages.SelectingPort
+				m.State = messages.SelectingCommand
+				cmd = messages.SendStateMessage(m.State)
+				cmds = append(cmds, cmd)
+
+			case messages.SelectingCommand:
+				m.State = messages.SelectingDevice
 				cmd = messages.SendStateMessage(m.State)
 				cmds = append(cmds, cmd)
 			}
@@ -34,12 +40,17 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case key.Matches(msg, m.Keys.ToggleActiveLeft):
 			switch m.State {
 			case messages.SelectingPort:
-				m.State = messages.SelectingDevice
+				m.State = messages.SelectingCommand
 				cmd = messages.SendStateMessage(m.State)
 				cmds = append(cmds, cmd)
 
 			case messages.SelectingDevice:
 				m.State = messages.SelectingPort
+				cmd = messages.SendStateMessage(m.State)
+				cmds = append(cmds, cmd)
+
+			case messages.SelectingCommand:
+				m.State = messages.SelectingDevice
 				cmd = messages.SendStateMessage(m.State)
 				cmds = append(cmds, cmd)
 			}
@@ -57,6 +68,10 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	c, cmd = m.DevicesComponent.Update(msg)
 	m.DevicesComponent = c.(*devices.Model)
+	cmds = append(cmds, cmd)
+
+	c, cmd = m.CommandsComponent.Update(msg)
+	m.CommandsComponent = c.(*commands.Model)
 	cmds = append(cmds, cmd)
 
 	return m, tea.Batch(cmds...)

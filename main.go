@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	f, err := tea.LogToFile("debug.log", "deubg")
+	f, err := tea.LogToFile("debug.log", "debug")
 	if err != nil {
 		panic(err)
 	}
