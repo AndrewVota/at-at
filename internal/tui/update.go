@@ -9,6 +9,9 @@ import (
 )
 
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	var cmds []tea.Cmd
+	var cmd tea.Cmd
+
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch {
@@ -19,26 +22,26 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			switch m.State {
 			case messages.SelectingPort:
 				m.State = messages.SelectingDevice
-				m.PortsComponent.Focused = false
-				m.DevicesComponent.Focused = true
+				cmd = messages.SendStateMessage(m.State)
+				cmds = append(cmds, cmd)
 
 			case messages.SelectingDevice:
 				m.State = messages.SelectingPort
-				m.DevicesComponent.Focused = false
-				m.PortsComponent.Focused = true
+				cmd = messages.SendStateMessage(m.State)
+				cmds = append(cmds, cmd)
 			}
 
 		case key.Matches(msg, m.Keys.ToggleActiveLeft):
 			switch m.State {
 			case messages.SelectingPort:
 				m.State = messages.SelectingDevice
-				m.PortsComponent.Focused = false
-				m.DevicesComponent.Focused = true
+				cmd = messages.SendStateMessage(m.State)
+				cmds = append(cmds, cmd)
 
 			case messages.SelectingDevice:
 				m.State = messages.SelectingPort
-				m.DevicesComponent.Focused = false
-				m.PortsComponent.Focused = true
+				cmd = messages.SendStateMessage(m.State)
+				cmds = append(cmds, cmd)
 			}
 		}
 
@@ -48,9 +51,6 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	}
 
 	// Delegate messages to the components
-	var cmds []tea.Cmd
-	var cmd tea.Cmd
-
 	c, cmd := m.PortsComponent.Update(msg)
 	m.PortsComponent = c.(*ports.Model)
 	cmds = append(cmds, cmd)

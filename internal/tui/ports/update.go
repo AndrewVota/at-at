@@ -13,6 +13,13 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		m.WindowWidth = msg.Width
 		m.WindowHeight = msg.Height
+
+	case messages.StateMessage:
+		if msg.State == messages.SelectingPort {
+			m.Focused = true
+		} else {
+			m.Focused = false
+		}
 	}
 
 	if m.Focused {
