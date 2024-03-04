@@ -3,6 +3,7 @@ package commands
 func (m *Model) View() string {
 	styles := DefaultStyles()
 	m.List.SetShowHelp(false)
+	m.List.Title = "Commands"
 
 	switch m.Focused {
 	case true:

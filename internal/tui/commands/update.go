@@ -30,19 +30,19 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	case messages.DeviceMessage:
-		currentDeviceMake := msg.Make
-		currentDeviceModel := msg.Model
-		currentDeviceBaudRate := msg.BaudRate
-		currentDeviceDateBits := msg.DataBits
-		currentDeviceStopBits := msg.StopBits
-		currentDeviceParity := msg.Parity
-		if m.CurrentDeviceMake != currentDeviceMake && m.CurrentDeviceModel != currentDeviceModel {
-			m.CurrentDeviceMake = currentDeviceMake
-			m.CurrentDeviceModel = currentDeviceModel
-			m.CurrentDeviceBaudRate = currentDeviceBaudRate
-			m.CurrentDeviceDataBits = currentDeviceDateBits
-			m.CurrentDeviceStopBits = currentDeviceStopBits
-			m.CurrentDeviceParity = currentDeviceParity
+		newDeviceMake := msg.Make
+		newDeviceModel := msg.Model
+		newDeviceBaudRate := msg.BaudRate
+		newDeviceDataBits := msg.DataBits
+		newDeviceStopBits := msg.StopBits
+		newDeviceParity := msg.Parity
+		if m.CurrentDeviceMake != newDeviceMake && m.CurrentDeviceModel != newDeviceModel {
+			m.CurrentDeviceMake = newDeviceMake
+			m.CurrentDeviceModel = newDeviceModel
+			m.CurrentDeviceBaudRate = newDeviceBaudRate
+			m.CurrentDeviceDataBits = newDeviceDataBits
+			m.CurrentDeviceStopBits = newDeviceStopBits
+			m.CurrentDeviceParity = newDeviceParity
 		}
 
 		commands, err := device.GetConfigForMakeAndModel(m.CurrentDeviceMake, m.CurrentDeviceModel)

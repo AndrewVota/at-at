@@ -27,16 +27,16 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		cmds = append(cmds, cmd)
 	}
 
-	currentDeviceMake := m.List.SelectedItem().(*Device).Make
-	currentDeviceModel := m.List.SelectedItem().(*Device).Model
-	currentDeviceBaudeRate := m.List.SelectedItem().(*Device).BaudeRate
-	currentDeviceDataBits := m.List.SelectedItem().(*Device).DataBits
-	currentDeviceStopBits := m.List.SelectedItem().(*Device).StopBits
-	currentDeviceParity := m.List.SelectedItem().(*Device).Parity
-	if m.CurrentDeviceMake != currentDeviceMake && m.CurrentDeviceModel != currentDeviceModel {
-		m.CurrentDeviceMake = currentDeviceMake
-		m.CurrentDeviceModel = currentDeviceModel
-		cmd = messages.SendDeviceMessage(currentDeviceMake, currentDeviceModel, currentDeviceBaudeRate, currentDeviceDataBits, currentDeviceStopBits, currentDeviceParity)
+	newDeviceMake := m.List.SelectedItem().(*Device).Make
+	newDeviceModel := m.List.SelectedItem().(*Device).Model
+	newDeviceBaudRate := m.List.SelectedItem().(*Device).BaudeRate
+	newDeviceDataBits := m.List.SelectedItem().(*Device).DataBits
+	newDeviceStopBits := m.List.SelectedItem().(*Device).StopBits
+	newDeviceParity := m.List.SelectedItem().(*Device).Parity
+	if m.CurrentDeviceMake != newDeviceMake && m.CurrentDeviceModel != newDeviceModel {
+		m.CurrentDeviceMake = newDeviceMake
+		m.CurrentDeviceModel = newDeviceModel
+		cmd = messages.SendDeviceMessage(newDeviceMake, newDeviceModel, newDeviceBaudRate, newDeviceDataBits, newDeviceStopBits, newDeviceParity)
 		cmds = append(cmds, cmd)
 	}
 

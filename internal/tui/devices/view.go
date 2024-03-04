@@ -3,6 +3,7 @@ package devices
 func (m *Model) View() string {
 	styles := DefaultStyles()
 	m.List.SetShowHelp(false)
+	m.List.Title = "Devices"
 
 	switch m.Focused {
 	case true:

@@ -27,10 +27,10 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		cmds = append(cmds, cmd)
 	}
 
-	currentPort := m.List.SelectedItem().(*Port).Name
-	if m.CurrentPort != currentPort {
-		m.CurrentPort = currentPort
-		cmd = messages.SendPortMessage(currentPort)
+	newPort := m.List.SelectedItem().(*Port).Name
+	if m.CurrentPort != newPort {
+		m.CurrentPort = newPort
+		cmd = messages.SendPortMessage(newPort)
 		cmds = append(cmds, cmd)
 	}
 
