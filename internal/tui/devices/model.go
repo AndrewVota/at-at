@@ -1,6 +1,7 @@
 package devices
 
 import (
+	"github.com/andrewvota/at-at/internal/device"
 	"github.com/charmbracelet/bubbles/list"
 )
 
@@ -26,12 +27,15 @@ func (p *Device) Description() string { return p.Type }
 func (p *Device) FilterValue() string { return p.Make + " " + p.Model }
 
 func New() *Model {
-	items := []list.Item{
-		&Device{Make: "Apple", Model: "iPhone 12", Type: "Smartphone"},
-		&Device{Make: "Apple", Model: "iPhone 12 Pro", Type: "Smartphone"},
-		&Device{Make: "Apple", Model: "iPhone 12 Pro Max", Type: "Smartphone"},
+	devices, err := device.LoadDeviceConfigs()
+	if err != nil {
+		panic(err)
 	}
 
+	items := make([]list.Item, len(devices))
+	for i, d := range devices {
+		items[i] = &Device{Make: d.Details.Make, Model: d.Details.Model, Type: d.Details.Type}
+	}
 	l := list.New(items, list.NewDefaultDelegate(), 0, 0)
 
 	return &Model{

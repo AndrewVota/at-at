@@ -8,6 +8,7 @@ require (
 	github.com/charmbracelet/lipgloss v0.9.1
 	github.com/spf13/cobra v1.8.0
 	go.bug.st/serial v1.6.2
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (

@@ -1,0 +1,18 @@
+details:
+  make: RAK
+  model: 3172
+  type: LoRaWAN Module
+config:
+  baudRate: 115200
+  dataBits: 8
+  stopBits: 1
+  parity: none
+commands:
+  - command: "AT+ATM\r"
+    details: Switch serial operating mode to AT command mode
+  - command: "AT\r"
+    details: Check if the module is alive and ready to accept AT commands
+  - command: "AT?\r"
+    details: Short help for all supported AT commands
+  - command: "ATE\r"
+    details: AT command echo, used to see the AT command input on the serial terminal

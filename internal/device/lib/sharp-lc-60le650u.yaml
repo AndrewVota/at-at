@@ -1,0 +1,16 @@
+details:
+  make: Sharp
+  model: LC-60LE650U
+  type: Television
+config:
+  baudRate: 9600
+  dataBits: 8
+  stopBits: 1
+  parity: none
+commands:
+  - command: "POWR?   \r"
+    details: Query current power status
+  - command: "POWR1   \r"
+    details: Turn power on
+  - command: "POWR0   \r"
+    details: Turn power off
