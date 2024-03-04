@@ -12,12 +12,12 @@ type Model struct {
 	List    list.Model
 	Focused bool
 
-	CurrentDeviceMake  string
-	CurrentDeviceModel string
-	CurrentBaudeRate   int
-	CurrentDataBits    int
-	CurrentStopBits    float32
-	CurrentParity      string
+	CurrentDeviceMake     string
+	CurrentDeviceModel    string
+	CurrentDeviceBaudRate int
+	CurrentDeviceDataBits int
+	CurrentDeviceStopBits float32
+	CurrentDeviceParity   string
 }
 
 type Device struct {
@@ -53,11 +53,11 @@ func New() *Model {
 		List:    l,
 		Focused: false,
 
-		CurrentDeviceMake:  "",
-		CurrentDeviceModel: "",
-		CurrentBaudeRate:   0,
-		CurrentDataBits:    0,
-		CurrentStopBits:    0,
-		CurrentParity:      "",
+		CurrentDeviceMake:     "",
+		CurrentDeviceModel:    "",
+		CurrentDeviceBaudRate: 0,
+		CurrentDeviceDataBits: 0,
+		CurrentDeviceStopBits: 0,
+		CurrentDeviceParity:   "",
 	}
 }
