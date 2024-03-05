@@ -42,7 +42,15 @@ func New() *Model {
 
 	items := make([]list.Item, len(devices))
 	for i, d := range devices {
-		items[i] = &Device{Make: d.Details.Make, Model: d.Details.Model, Type: d.Details.Type, BaudeRate: d.SerialSettings.BaudRate, DataBits: d.SerialSettings.DataBits, StopBits: d.SerialSettings.StopBits, Parity: d.SerialSettings.Parity}
+		items[i] = &Device{
+			Make:      d.Details.Make,
+			Model:     d.Details.Model,
+			Type:      d.Details.Type,
+			BaudeRate: d.SerialSettings.BaudRate,
+			DataBits:  d.SerialSettings.DataBits,
+			StopBits:  d.SerialSettings.StopBits,
+			Parity:    d.SerialSettings.Parity,
+		}
 	}
 	l := list.New(items, list.NewDefaultDelegate(), 0, 0)
 

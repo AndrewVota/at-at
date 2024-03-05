@@ -32,7 +32,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				cmds = append(cmds, cmd)
 
 			case messages.SelectingCommand:
-				m.State = messages.SelectingDevice
+				m.State = messages.SelectingPort
 				cmd = messages.SendStateMessage(m.State)
 				cmds = append(cmds, cmd)
 			}
