@@ -84,7 +84,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 		case key.Matches(msg, m.KeyMap.FocusPrevSelector):
 			m.activeSelector = (m.activeSelector + 4) % 5
 		case key.Matches(msg, m.KeyMap.Submit):
-			// Handle submit action
+			return m, m.sendSerialConfigMsg
 		}
 	}
 
@@ -167,4 +167,22 @@ func (m *Model) BlurAll() {
 	m.paritySelector.Blur()
 	m.dataBitsSelector.Blur()
 	m.stopBitsSelector.Blur()
+}
+
+type SerialConfigMsg struct {
+	PortName string
+	BuadRate string
+	Parity   string
+	DataBits string
+	StopBits string
+}
+
+func (m *Model) sendSerialConfigMsg() tea.Msg {
+	return SerialConfigMsg{
+		PortName: m.nameSelector.Value(),
+		BuadRate: m.baudSelector.Value(),
+		Parity:   m.paritySelector.Value(),
+		DataBits: m.dataBitsSelector.Value(),
+		StopBits: m.stopBitsSelector.Value(),
+	}
 }
