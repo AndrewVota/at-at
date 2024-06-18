@@ -116,6 +116,10 @@ func (m *Model) SetPlaceholder(s string) {
 	}
 }
 
+func (m *Model) Value() string {
+	return m.choices[m.currentChoice]
+}
+
 // ---
 
 func (m *Model) placeholderView() string {
