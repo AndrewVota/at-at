@@ -38,8 +38,8 @@ func New() Model {
 		KeyMap: DefaultKeyMap,
 		focus:  false,
 
-		placeholder:   "",
-		choices:       []string{""},
+		placeholder:   "PLACEHOLDER",
+		choices:       []string{"PLACEHOLDER"},
 		currentChoice: 0,
 
 		TextStyleFocused: lipgloss.NewStyle().Foreground(lipgloss.Color("255")),
@@ -78,7 +78,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 }
 
 func (m Model) View() string {
-	if len(m.choices) == 1 && m.choices[0] == m.placeholder {
+	if len(m.choices) == 0 || len(m.choices) == 1 && m.choices[0] == m.placeholder {
 		return m.placeholderView()
 	}
 	return m.choiceView()

@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"github.com/andrewvota/at-at/tui/menu"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -17,22 +18,38 @@ type Model struct {
 	// General settings
 	KeyMap KeyMap
 	focus  bool
+
+	// State
+
+	// Components
+	menu menu.Model
 }
 
 func New() Model {
 	return Model{
 		KeyMap: DefaultKeyMap,
 		focus:  false,
+
+		menu: menu.New(),
 	}
 }
 
 func (m Model) Init() tea.Cmd {
-	return nil
+	var (
+		cmds []tea.Cmd
+		cmd  tea.Cmd
+	)
+
+	cmd = m.menu.Init()
+	cmds = append(cmds, cmd)
+
+	return tea.Batch(cmds...)
 }
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var (
 		cmds []tea.Cmd
+		cmd  tea.Cmd
 	)
 
 	switch msg := msg.(type) {
@@ -43,11 +60,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	}
 
+	m.menu, cmd = m.menu.Update(msg)
+	cmds = append(cmds, cmd)
+
 	return m, tea.Batch(cmds...)
 }
 
 func (m Model) View() string {
-	return ""
+	return m.menu.View()
 }
 
 // Ensure that model fulfils the tea.Model interface at compile time.
