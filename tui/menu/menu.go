@@ -41,7 +41,7 @@ type Model struct {
 func New() Model {
 	return Model{
 		KeyMap: DefaultKeyMap,
-		focus:  false,
+		focus:  true,
 
 		activeSelector: NameSelectorActive,
 
@@ -54,10 +54,14 @@ func New() Model {
 }
 
 func (m Model) Init() tea.Cmd {
-	return tea.Batch(loadInitialData)
+	return loadInitialData
 }
 
 func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
+	if !m.focus {
+		return m, nil
+	}
+
 	var (
 		cmds []tea.Cmd
 	)
@@ -129,7 +133,7 @@ type InitMsg struct {
 func loadInitialData() tea.Msg {
 	ports, err := serial.GetPortsList()
 	if err != nil {
-		return InitMsg{}
+		ports = []string{"NO SERIAL PORTS FOUND"}
 	}
 
 	var bauds = []string{"4800 Baud", "9600 Baud", "19200 Baud", "38400 Baud", "57600 Baud", "115200 Baud", "230400 Baud", "460800 Baud", "921600 Baud"}
