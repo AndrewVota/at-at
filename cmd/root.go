@@ -15,7 +15,7 @@ var rootCmd = &cobra.Command{
 	Version: "0.1.0",
 	Args:    cobra.MaximumNArgs(1),
 	Run: func(_ *cobra.Command, _ []string) {
-		m := tui.NewTui()
+		m := tui.New()
 
 		var opts []tea.ProgramOption
 		opts = append(opts, tea.WithAltScreen())

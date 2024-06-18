@@ -5,25 +5,24 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-type Model struct {
-	keys keyMap
-}
-
-func NewTui() Model {
-	return Model{
-		keys: defaultKeyMap(),
-	}
-}
-
-type keyMap struct {
+type KeyMap struct {
 	Quit key.Binding
 }
 
-func defaultKeyMap() keyMap {
-	return keyMap{
-		Quit: key.NewBinding(
-			key.WithKeys("ctrl+c"),
-		),
+var DefaultKeyMap = KeyMap{
+	Quit: key.NewBinding(key.WithKeys("ctrl+c")),
+}
+
+type Model struct {
+	// General settings
+	KeyMap KeyMap
+	focus  bool
+}
+
+func New() Model {
+	return Model{
+		KeyMap: DefaultKeyMap,
+		focus:  false,
 	}
 }
 
@@ -32,12 +31,14 @@ func (m Model) Init() tea.Cmd {
 }
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	var cmds []tea.Cmd
+	var (
+		cmds []tea.Cmd
+	)
 
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch {
-		case key.Matches(msg, m.keys.Quit):
+		case key.Matches(msg, m.KeyMap.Quit):
 			return m, tea.Quit
 		}
 	}
