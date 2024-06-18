@@ -5,6 +5,7 @@ import (
 
 	"github.com/andrewvota/at-at/tui/menu"
 	"github.com/andrewvota/at-at/tui/messages"
+	"github.com/andrewvota/at-at/tui/repl"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -27,6 +28,7 @@ type Model struct {
 
 	// Components
 	menu menu.Model
+	repl repl.Model
 }
 
 func New() Model {
@@ -35,6 +37,7 @@ func New() Model {
 		focus:  false,
 
 		menu: menu.New(),
+		repl: repl.New(),
 	}
 }
 
@@ -45,6 +48,9 @@ func (m Model) Init() tea.Cmd {
 	)
 
 	cmd = m.menu.Init()
+	cmds = append(cmds, cmd)
+
+	cmd = m.repl.Init()
 	cmds = append(cmds, cmd)
 
 	return tea.Batch(cmds...)
@@ -68,14 +74,26 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.state = msg.State
 	}
 
-	m.menu, cmd = m.menu.Update(msg)
-	cmds = append(cmds, cmd)
+	switch m.state {
+	case messages.StateMenu:
+		m.menu, cmd = m.menu.Update(msg)
+		cmds = append(cmds, cmd)
+	case messages.StateRepl:
+		m.repl, cmd = m.repl.Update(msg)
+		cmds = append(cmds, cmd)
+	}
 
 	return m, tea.Batch(cmds...)
 }
 
 func (m Model) View() string {
-	return m.menu.View()
+	switch m.state {
+	case messages.StateMenu:
+		return m.menu.View()
+	case messages.StateRepl:
+		return m.repl.View()
+	}
+	return "No view found..."
 }
 
 // Ensure that model fulfils the tea.Model interface at compile time.
