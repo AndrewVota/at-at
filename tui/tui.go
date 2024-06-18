@@ -1,7 +1,10 @@
 package tui
 
 import (
+	"log"
+
 	"github.com/andrewvota/at-at/tui/menu"
+	"github.com/andrewvota/at-at/tui/messages"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -47,6 +50,8 @@ func (m Model) Init() tea.Cmd {
 }
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	log.Printf("Message: %s", msg)
+
 	var (
 		cmds []tea.Cmd
 		cmd  tea.Cmd
@@ -57,6 +62,15 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch {
 		case key.Matches(msg, m.KeyMap.Quit):
 			return m, tea.Quit
+		}
+	case messages.ChangeStateMessage:
+		switch {
+		case msg.State == messages.StateMenu:
+			// m.repl.Blur()
+			m.menu.Focus()
+		case msg.State == messages.StateRepl:
+			m.menu.Blur()
+			// m.repl.Focus()
 		}
 	}
 

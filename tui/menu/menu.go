@@ -2,6 +2,7 @@ package menu
 
 import (
 	"github.com/andrewvota/at-at/serial"
+	"github.com/andrewvota/at-at/tui/messages"
 	"github.com/andrewvota/at-at/tui/selector"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
@@ -84,29 +85,29 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 		case key.Matches(msg, m.KeyMap.FocusPrevSelector):
 			m.activeSelector = (m.activeSelector + 4) % 5
 		case key.Matches(msg, m.KeyMap.Submit):
-			return m, m.sendSerialConfigMsg
+			return m, tea.Batch(m.sendSerialConfigMsg, messages.ChangeStateTo(messages.StateRepl))
 		}
 	}
 
 	switch m.activeSelector {
 	case NameSelectorActive:
-		m.BlurAll()
+		m.BlurAllComponents()
 		m.nameSelector.Focus()
 		m.nameSelector, _ = m.nameSelector.Update(msg)
 	case BaudSelectorActive:
-		m.BlurAll()
+		m.BlurAllComponents()
 		m.baudSelector.Focus()
 		m.baudSelector, _ = m.baudSelector.Update(msg)
 	case ParitySelectorActive:
-		m.BlurAll()
+		m.BlurAllComponents()
 		m.paritySelector.Focus()
 		m.paritySelector, _ = m.paritySelector.Update(msg)
 	case DataBitsSelectorActive:
-		m.BlurAll()
+		m.BlurAllComponents()
 		m.dataBitsSelector.Focus()
 		m.dataBitsSelector, _ = m.dataBitsSelector.Update(msg)
 	case StopBitsSelectorActive:
-		m.BlurAll()
+		m.BlurAllComponents()
 		m.stopBitsSelector.Focus()
 		m.stopBitsSelector, _ = m.stopBitsSelector.Update(msg)
 	}
@@ -121,6 +122,14 @@ func (m Model) View() string {
 }
 
 // ---
+
+func (m *Model) Focus() {
+	m.focus = true
+}
+
+func (m *Model) Blur() {
+	m.focus = false
+}
 
 type InitMsg struct {
 	Ports    []string
@@ -161,7 +170,7 @@ const (
 	StopBitsSelectorActive
 )
 
-func (m *Model) BlurAll() {
+func (m *Model) BlurAllComponents() {
 	m.nameSelector.Blur()
 	m.baudSelector.Blur()
 	m.paritySelector.Blur()
