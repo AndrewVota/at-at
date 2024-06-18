@@ -97,9 +97,7 @@ func (m Model) View() string {
 }
 
 func (m *Model) AddChoices(choices ...string) {
-	for _, choice := range choices {
-		m.choices = append(m.choices, choice)
-	}
+	m.choices = append(m.choices, choices...)
 
 	if len(m.choices) > 1 && m.choices[0] == placeholder {
 		m.choices = m.choices[1:]
