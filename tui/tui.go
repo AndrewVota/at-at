@@ -23,6 +23,7 @@ type Model struct {
 	focus  bool
 
 	// State
+	state messages.State
 
 	// Components
 	menu menu.Model
@@ -64,14 +65,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		}
 	case messages.ChangeStateMessage:
-		switch {
-		case msg.State == messages.StateMenu:
-			// m.repl.Blur()
-			m.menu.Focus()
-		case msg.State == messages.StateRepl:
-			m.menu.Blur()
-			// m.repl.Focus()
-		}
+		m.state = msg.State
 	}
 
 	m.menu, cmd = m.menu.Update(msg)
