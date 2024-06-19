@@ -5,7 +5,6 @@ import (
 
 	"github.com/andrewvota/at-at/tui/menu"
 	"github.com/andrewvota/at-at/tui/messages"
-	"github.com/andrewvota/at-at/tui/repl"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -28,7 +27,6 @@ type Model struct {
 
 	// Components
 	menu menu.Model
-	repl repl.Model
 }
 
 func New() Model {
@@ -37,7 +35,6 @@ func New() Model {
 		focus:  false,
 
 		menu: menu.New(),
-		repl: repl.New(),
 	}
 }
 
@@ -48,9 +45,6 @@ func (m Model) Init() tea.Cmd {
 	)
 
 	cmd = m.menu.Init()
-	cmds = append(cmds, cmd)
-
-	cmd = m.repl.Init()
 	cmds = append(cmds, cmd)
 
 	return tea.Batch(cmds...)
@@ -70,38 +64,16 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case key.Matches(msg, m.KeyMap.Quit):
 			return m, tea.Quit
 		}
-	case messages.ChangeStateMessage:
-		m.state = msg.State
-		switch m.state {
-		case messages.StateMenu:
-			m.menu.Focus()
-			m.repl.Blur()
-		case messages.StateRepl:
-			m.repl.Focus()
-			m.menu.Blur()
-		}
 	}
 
-	switch m.state {
-	case messages.StateMenu:
-		m.menu, cmd = m.menu.Update(msg)
-		cmds = append(cmds, cmd)
-	case messages.StateRepl:
-		m.repl, cmd = m.repl.Update(msg)
-		cmds = append(cmds, cmd)
-	}
+	m.menu, cmd = m.menu.Update(msg)
+	cmds = append(cmds, cmd)
 
 	return m, tea.Batch(cmds...)
 }
 
 func (m Model) View() string {
-	switch m.state {
-	case messages.StateMenu:
-		return m.menu.View()
-	case messages.StateRepl:
-		return m.repl.View()
-	}
-	return "No view found..."
+	return m.menu.View()
 }
 
 // Ensure that model fulfils the tea.Model interface at compile time.
