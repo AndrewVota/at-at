@@ -43,6 +43,8 @@ func New() Model {
 	return Model{
 		KeyMap: DefaultKeyMap,
 		focus:  true,
+		width:  0,
+		height: 0,
 
 		activeSelector: NameSelectorActive,
 

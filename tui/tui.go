@@ -72,6 +72,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	case messages.ChangeStateMessage:
 		m.state = msg.State
+		switch m.state {
+		case messages.StateMenu:
+			m.menu.Focus()
+			m.repl.Blur()
+		case messages.StateRepl:
+			m.repl.Focus()
+			m.menu.Blur()
+		}
 	}
 
 	switch m.state {
